@@ -452,7 +452,9 @@ class TrtMtcnn(object):
         """
         # MTCNN model was trained with 'MATLAB' image so its channel
         # order is RGB instead of BGR.
-        img = img[:, :, ::-1]  # BGR -> RGB
+        # XXX our data is already RGB
+        # img = img[:, :, ::-1]  # BGR -> RGB
+        
         dets = self.pnet.detect(img, minsize=minsize)
         dets = self.rnet.detect(img, dets)
         dets, landmarks = self.onet.detect(img, dets)
