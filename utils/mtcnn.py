@@ -167,6 +167,14 @@ def generate_rnet_bboxes(conf, reg, pboxes, t):
     ww = (boxes[:, 2]-boxes[:, 0]+1).reshape(-1, 1)  # x2 - x1 + 1
     hh = (boxes[:, 3]-boxes[:, 1]+1).reshape(-1, 1)  # y2 - y1 + 1
     boxes[:, 0:4] += np.concatenate((ww, hh, ww, hh), axis=1) * reg
+    # XXX fix up boxes that have negative size. no idea why this is needed or what's up.
+    for i, det in enumerate(boxes):
+        if det[0] > det[2]:
+            boxes[i][0] = det[2]
+            boxes[i][2] = det[0]
+        if det[1] > det[3]:
+            boxes[i][1] = det[3]
+            boxes[i][3] = det[1]
     return boxes
 
 
