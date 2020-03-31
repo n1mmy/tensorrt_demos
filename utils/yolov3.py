@@ -59,7 +59,8 @@ import pycuda.driver as cuda
 def _preprocess_yolov3(img, shape):
     """Preprocess an image before TRT YOLOv3 inferencing."""
     img = cv2.resize(img, shape)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    # XXX our images are already RGB
+    # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img = img.transpose((2, 0, 1)).astype(np.float32)
     img /= 255.0
     return img
